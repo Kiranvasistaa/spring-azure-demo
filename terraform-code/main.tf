@@ -23,8 +23,6 @@ data "azurerm_resource_group" "rg" {
   name     = "demowebapprg"
 }
 
-####
-
 data "azurerm_service_plan" "service_plan" {
   name                = "demowebappava"
   resource_group_name = "demowebapprg"
