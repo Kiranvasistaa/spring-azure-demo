@@ -20,6 +20,9 @@ jobs:
         with:
           terraform_version: 1.0.0
 
+      - name: Change directory to terraform-code
+        run: cd terraform-code
+
       - name: Terraform Init
         run: terraform init
 
