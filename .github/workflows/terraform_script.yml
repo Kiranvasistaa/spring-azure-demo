@@ -6,7 +6,7 @@ on:
       - develop
     paths:
       - 'terraform-code/**'
-      - '.github\workflow/terraform_script.yml'
+      - '.github/workflow/terraform_script.yml'
       
 jobs:
   terraform_apply:
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-    # Add a step to log in to Azure CLI
+    # Add a step to log in to Azure CLII
       - name: Azure Login
         run: az login
         env:
