@@ -28,6 +28,8 @@ data "azurerm_service_plan" "service_plan" {
   resource_group_name = "demowebapprg"
 }
 
+####
+
 resource "azurerm_linux_web_app" "example" {
   name                = "demovjavawebapp"
   resource_group_name = data.azurerm_resource_group.rg.name
