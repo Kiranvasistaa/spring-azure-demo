@@ -12,7 +12,6 @@ on:
       - 'pom.xml'
       - '.github/workflows/main_demotestspringboot.yml'
 
-
 jobs:
   build:
     runs-on: ubuntu-latest

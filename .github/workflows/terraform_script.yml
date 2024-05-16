@@ -6,7 +6,7 @@ on:
       - develop
     paths:
       - 'terraform-code/**'
-      - '.github/workflow/terraform_script.yml'
+      - '.github/workflows/terraform_script.yml'
       
 jobs:
   terraform_apply:
