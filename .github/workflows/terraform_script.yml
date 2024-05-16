@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-    # Add a step to log in to Azure CLII
+    # Add a step to log in to Azure CLI
       - name: Azure Login
         run: az login
         env:
