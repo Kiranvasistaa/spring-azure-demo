@@ -17,8 +17,8 @@
 		        <java.version>11</java.version>
 		        <!-- SonarCloud properties -->
 		        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		        <sonar.organization>vaishnavyprakas</sonar.organization>
-		        <sonar.projectKey>vaishnavyprakas_spring-azure-demo</sonar.projectKey>
+		        <sonar.organization>kiranvasistaa</sonar.organization>
+		        <sonar.projectKey>kiranvasistaa_spring-azure-demo</sonar.projectKey>
 		        <sonar.sources>src/main</sonar.sources>
 		        <sonar.tests>src/test</sonar.tests>
 		        <!-- Excludes Python files from SonarCloud analysis -->
