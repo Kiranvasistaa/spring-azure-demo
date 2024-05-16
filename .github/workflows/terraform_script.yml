@@ -41,7 +41,7 @@ jobs:
         working-directory: terraform-code
 
       - name: Terraform Apply
-        run: terraform apply
+        run: terraform apply -auto-approve
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
