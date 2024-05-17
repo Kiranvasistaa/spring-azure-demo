@@ -72,7 +72,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet_associate" {
   count               = var.enable_private_network_access ? 1 : 0
   name                  = "test"
   resource_group_name   = data.azurerm_resource_group.rg.name
-  private_dns_zone_name = azurerm_private_dns_zone.private_dns_zone.name
+  private_dns_zone_name = azurerm_private_dns_zone.private_dns_zone[count.index].name
   virtual_network_id    = "/subscriptions/7db47fd7-88a3-4d98-ad97-f89dce724605/resourceGroups/demowebapprg/providers/Microsoft.Network/virtualNetworks/demovnet"
 }
 
