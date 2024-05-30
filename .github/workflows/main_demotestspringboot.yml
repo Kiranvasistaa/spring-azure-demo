@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
 
-name: Build and deploy JAR app to Azure Web App - demojavaboot
+name: Build and deploy JAR app to Azure Web App - demowebappjava
 
 on:
   push:
@@ -64,7 +64,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'demojavaboot'
+          app-name: 'demowebappjava'
           slot-name: 'Production'
           package: '*.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
