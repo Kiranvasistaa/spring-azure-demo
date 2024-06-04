@@ -15,7 +15,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: demofunlinapp # set this to your function app name on Azure
-  PACKAGE_DIRECTORY: './java-app' # set this to the directory which contains pom.xml file
+  PACKAGE_DIRECTORY: './target' #'./java-app' # set this to the directory which contains pom.xml file
   JAVA_VERSION: '17' # set this to the java version to use
 
 jobs:
@@ -67,10 +67,10 @@ jobs:
       
       - name: Run Azure Functions Action
         id: deploy-to-functionapp
-        uses:  Azure/functions-action@v1
+        uses:  Azure/webapps-deploy@v2
         with:
           app-name: 'demolinfunapp'
           slot-name: 'Production'
-          package: '${{ env.PACKAGE_DIRECTORY }}'
+          package: './java-app/*.jar'
           respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
