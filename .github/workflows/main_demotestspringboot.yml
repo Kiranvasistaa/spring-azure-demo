@@ -67,11 +67,14 @@ jobs:
       #       AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       #       AZURE_SERVICE_PRINCIPAL_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
+      - name: Zip the JAR file
+        run: zip -j my-app.zip target/my-app.jar
+      
       - name: Run Azure Functions Action
         id: deploy-to-functionapp
         uses: Azure/functions-action@v1
         with:
           app-name: 'demofunlinapp'
-          package: './my-app.jar' #'${{env.PACKAGE_DIRECTORY}}'
+          package: 'my-app.zip' #'${{env.PACKAGE_DIRECTORY}}'
           respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
