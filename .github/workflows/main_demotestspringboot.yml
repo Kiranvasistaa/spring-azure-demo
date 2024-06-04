@@ -68,6 +68,6 @@ jobs:
         uses: Azure/functions-action@v1
         with:
           app-name: 'demolinfunapp'
-          package: './target/*.jar' # Path where the JAR file will be located after download
+          package: './*.jar' # Path where the JAR file will be located after download
           respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
