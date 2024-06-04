@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
 
-name: Build and deploy JAR app to Azure Web App - demovjavawebapp
+name: Build and deploy JAR app to Azure Web App - demolinfunapp
 
 on:
   push:
@@ -12,6 +12,11 @@ on:
       - 'java-code/**'
       - 'pom.xml'
       - '.github/workflows/main_demotestspringboot.yml'
+
+env:
+  AZURE_FUNCTIONAPP_NAME: demofunlinapp # set this to your function app name on Azure
+  PACKAGE_DIRECTORY: '/pom.xml' # set this to the directory which contains pom.xml file
+  JAVA_VERSION: '17' # set this to the java version to use
 
 jobs:
   build:
@@ -60,11 +65,12 @@ jobs:
         with:
           name: java-app
       
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+      - name: Run Azure Functions Action
+        id: deploy-to-functionapp
+        uses:  Azure/functions-action@v1
         with:
-          app-name: 'demovjavawebapp'
+          app-name: 'demolinfunapp'
           slot-name: 'Production'
-          package: '*.jar'
+          package: '${{ env.PACKAGE_DIRECTORY }}'
+          respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
