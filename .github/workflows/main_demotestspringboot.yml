@@ -11,7 +11,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: demofunlinapp # set this to your function app name on Azure
-  PACKAGE_DIRECTORY: '.'
+  #PACKAGE_DIRECTORY: '.'
   JAVA_VERSION: '17' # set this to the java version to use
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'    
+          path: 'target/my-app.jar'    
 
   deploy:
     runs-on: ubuntu-latest
@@ -59,20 +59,20 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: target'
 
-      - name: Azure Login
-        run: az login
-        env:
-            AZURE_SERVICE_PRINCIPAL_CLIENT_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-            AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-            AZURE_SERVICE_PRINCIPAL_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      # - name: Azure Login
+      #   run: az login
+      #   env:
+      #       AZURE_SERVICE_PRINCIPAL_CLIENT_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      #       AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      #       AZURE_SERVICE_PRINCIPAL_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: Run Azure Functions Action
         id: deploy-to-functionapp
         uses: Azure/functions-action@v1
         with:
           app-name: 'demofunlinapp'
-          #package: '${{env.PACKAGE_DIRECTORY}}'
+          package: 'target/my-app.jar' #'${{env.PACKAGE_DIRECTORY}}'
           respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
