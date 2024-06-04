@@ -70,7 +70,7 @@ jobs:
         uses:  Azure/functions-action@v1
         with:
           app-name: 'demolinfunapp'
-          slot-name: 'production'
+          #slot-name: 'production'
           #package: './target/my-app.jar'
           respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
