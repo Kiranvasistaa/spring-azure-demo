@@ -1,8 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-
-name: Build and deploy JAR app to Azure funtion App - demolinfunapp
+name: Build and deploy JAR app to Azure Function App - demolinfunapp
 
 on:
   push:
@@ -15,7 +11,6 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: demofunlinapp # set this to your function app name on Azure
-  #PACKAGE_DIRECTORY: './java-app/**/*.jar' # set this to the directory which contains pom.xml file
   JAVA_VERSION: '17' # set this to the java version to use
 
 jobs:
@@ -43,14 +38,14 @@ jobs:
           TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      # - name: Rename JAR file
-      #   run: mv target/*.jar target/my-app.jar
+      - name: List files in target directory before upload
+        run: ls -R target
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'     
+          path: 'target/*.jar'     
 
   deploy:
     runs-on: ubuntu-latest
@@ -64,14 +59,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: java-app
-          path: './target'
       
+      - name: List files in target directory after download
+        run: ls -R target
+
       - name: Run Azure Functions Action
         id: deploy-to-functionapp
-        uses:  Azure/functions-action@v1
+        uses: Azure/functions-action@v1
         with:
           app-name: 'demolinfunapp'
-          #slot-name: 'production'
-          package: 'target/*.jar' #'./target/my-app.jar'
+          package: 'target/*.jar' # Path where the JAR file will be located after download
           respect-pom-xml: true
-          publish-profile: ${{ secrets.PUBLISHPROFILE }}  
+          publish-profile: ${{ secrets.PUBLISHPROFILE }}
