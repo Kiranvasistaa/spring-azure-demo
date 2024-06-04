@@ -59,8 +59,8 @@ jobs:
         with:
           name: java-app
       
-      - name: Check target directory after download
-        run: ls -R target
+      # - name: Check target directory after download
+      #   run: ls -R target
 
       - name: Find JAR file
         id: locate-jar
