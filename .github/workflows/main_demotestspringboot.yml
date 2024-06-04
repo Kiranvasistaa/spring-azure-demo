@@ -57,13 +57,14 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-to-functionapp.outputs.webapp-url }}
       
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: java-app
+          path: './target'
       
       - name: Run Azure Functions Action
         id: deploy-to-functionapp
@@ -71,6 +72,6 @@ jobs:
         with:
           app-name: 'demolinfunapp'
           #slot-name: 'production'
-          package: './*.jar' #'./target/my-app.jar'
+          package: 'target/*.jar' #'./target/my-app.jar'
           respect-pom-xml: true
-          publish-profile: ${{ secrets.PUBLISHPROFILE }}
+          publish-profile: ${{ secrets.PUBLISHPROFILE }}  
