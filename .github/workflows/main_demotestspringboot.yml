@@ -68,4 +68,4 @@ jobs:
           app-name: 'demolinfunapp'
           package: '${{env.PACKAGE_DIRECTORY}}'
           respect-pom-xml: true
-          publish-profile: ${{ secrets.PUBLISHPROFILE }}
+          #publish-profile: ${{ secrets.PUBLISHPROFILE }}
