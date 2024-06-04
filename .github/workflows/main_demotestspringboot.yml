@@ -29,9 +29,6 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Check workspace directory before build
-        run: ls -R
-
       - name: Unit Testing
         run: mvn test
         
@@ -40,9 +37,6 @@ jobs:
         env:
           TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Check workspace directory after build
-        run: ls -R
 
       - name: Check target directory after build
         run: ls -R target
@@ -58,25 +52,22 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-functionapp.outputs.webapp-url }}
       
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: java-app
-      
-      - name: Check workspace directory after download
-        run: ls -R
+          path: './target' # Ensure the artifacts are downloaded to the correct path
 
       - name: Check target directory after download
-        run: ls -R target
+        run: ls -R ./target
 
       - name: Run Azure Functions Action
         id: deploy-to-functionapp
         uses: Azure/functions-action@v1
         with:
           app-name: 'demolinfunapp'
-          package: 'target/*.jar' # Path where the JAR file will be located after download
+          package: './target/*.jar' # Path where the JAR file will be located after download
           respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
