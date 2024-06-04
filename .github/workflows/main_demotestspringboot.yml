@@ -71,6 +71,6 @@ jobs:
         with:
           app-name: 'demolinfunapp'
           slot-name: 'Production'
-          package: '${{ env.PACKAGE_DIRECTORY }}'
+          package: './java-app/*.jar'
           respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
