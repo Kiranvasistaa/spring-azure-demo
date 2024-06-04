@@ -29,6 +29,9 @@ jobs:
         with:
           java-version: '17'
 
+      - name: Check workspace directory before build
+        run: ls -R
+
       - name: Unit Testing
         run: mvn test
         
@@ -38,7 +41,10 @@ jobs:
           TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: List files in target directory before upload
+      - name: Check workspace directory after build
+        run: ls -R
+
+      - name: Check target directory after build
         run: ls -R target
 
       - name: Upload artifact for deployment job
@@ -60,7 +66,10 @@ jobs:
         with:
           name: java-app
       
-      - name: List files in target directory after download
+      - name: Check workspace directory after download
+        run: ls -R
+
+      - name: Check target directory after download
         run: ls -R target
 
       - name: Run Azure Functions Action
