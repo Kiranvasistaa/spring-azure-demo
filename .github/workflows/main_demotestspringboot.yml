@@ -68,7 +68,7 @@ jobs:
       #       AZURE_SERVICE_PRINCIPAL_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: Zip the JAR file
-        run: zip -j my-app.zip target/my-app.jar
+        run: zip -j target/my-app.zip target/my-app.jar
       
       - name: Run Azure Functions Action
         id: deploy-to-functionapp
