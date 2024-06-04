@@ -11,6 +11,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: demofunlinapp # set this to your function app name on Azure
+  PACKAGE_DIRECTORY: '.'
   JAVA_VERSION: '17' # set this to the java version to use
 
 jobs:
@@ -65,6 +66,6 @@ jobs:
         uses: Azure/functions-action@v1
         with:
           app-name: 'demolinfunapp'
-          package: 'target/my-app.jar'
+          package: '${{env.PACKAGE_DIRECTORY}}'
           respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
