@@ -75,11 +75,11 @@ jobs:
     #       --name my-app-folder/my-app.jar \
     #       --file target/my-app.jar
 
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v3
-      with:
-       name: java-app
-       path: my-app.zip
+    # - name: Download artifact from build job
+    #   uses: actions/download-artifact@v3
+    #   with:
+    #    name: java-app
+    #    path: my-app.zip
 
     - name: Upload zip file to Azure Storage
       run: |
