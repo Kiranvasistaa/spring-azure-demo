@@ -74,8 +74,29 @@ jobs:
             --name my-app.jar \
             --file my-app.jar
 
+      - name: List downloaded files
+        run: ls -al
+
+      - name: Verify JAR file
+        run: |
+          if [ ! -f "my-app.jar" ]; then
+            echo "JAR file not found!"
+            exit 1
+          fi
+
       - name: Zip the JAR file
-        run: zip -j my-app.zip my-app.jar
+        run: |
+          zip -r my-app.zip my-app.jar
+
+      - name: Verify ZIP file
+        run: |
+          if [ ! -f "my-app.zip" ]; then
+            echo "ZIP file not found!"
+            exit 1
+          fi
+
+      - name: List ZIP file contents
+        run: unzip -l my-app.zip
 
       - name: Run Azure Functions Action
         id: deploy-to-functionapp
