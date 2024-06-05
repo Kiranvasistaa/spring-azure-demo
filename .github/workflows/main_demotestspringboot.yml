@@ -38,6 +38,15 @@ jobs:
         mvn clean package
         popd
 
+    - name: Rename JAR file
+      run: mv target/*.jar target/my-app.jar
+        
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: java-app
+        path: '${{ github.workspace }}/target/my-app.jar'
+
     - name: Azure Login
       run: az login
       env:
