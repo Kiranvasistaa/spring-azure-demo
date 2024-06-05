@@ -40,6 +40,7 @@ jobs:
           popd
 
       - name: Upload JAR to Azure Storage
+        shell: pwsh
         run: |
           az storage blob upload `
             --account-name $env:AZURE_STORAGE_ACCOUNT `
@@ -49,6 +50,7 @@ jobs:
             --file target/my-app.jar
 
       - name: Download JAR from Azure Storage
+        shell: pwsh
         run: |
           az storage blob download `
             --account-name $env:AZURE_STORAGE_ACCOUNT `
@@ -58,9 +60,11 @@ jobs:
             --file my-app/my-app.jar
 
       - name: List downloaded files
-        run: dir my-app
+        shell: pwsh
+        run: Get-ChildItem -Path my-app
 
       - name: Verify JAR file
+        shell: pwsh
         run: |
           if (!(Test-Path -Path "my-app/my-app.jar")) {
             Write-Error "JAR file not found!"
