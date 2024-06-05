@@ -81,14 +81,14 @@ jobs:
     #    name: java-app
     #    path: my-app.zip
 
-    - name: Upload zip file to Azure Storage
-      run: |
-        az storage blob upload \
-          --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
-          --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
-          --container-name ${{ secrets.AZURE_STORAGE_CONTAINER }} \
-          --name my-app.zip \
-          --file my-app.zip
+    # - name: Upload zip file to Azure Storage
+    #   run: |
+    #     az storage blob upload \
+    #       --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
+    #       --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
+    #       --container-name ${{ secrets.AZURE_STORAGE_CONTAINER }} \
+    #       --name my-app.zip \
+    #       --file my-app.zip
 
     - name: Run Azure Functions Action
       uses: Azure/functions-action@v1
