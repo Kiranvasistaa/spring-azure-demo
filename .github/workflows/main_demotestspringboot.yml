@@ -41,11 +41,14 @@ jobs:
     - name: Rename JAR file
       run: mv target/*.jar target/my-app.jar
         
+    - name: Create Zip Artifact
+      run: zip -r my-app.zip target/my-app.jar
+
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
         name: java-app
-        path: '${{ github.workspace }}/target/my-app.jar'
+        path: my-app.zip
 
     - name: Azure Login
       run: az login
@@ -83,7 +86,7 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: '${{ github.workspace }}/target/my-app.jar'
+        package: 'my-app.zip'
         publish-profile: ${{ secrets.PUBLISH_PROFILE }}
         respect-pom-xml: true
 
