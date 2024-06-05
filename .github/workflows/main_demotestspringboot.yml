@@ -39,13 +39,6 @@ jobs:
           mvn clean package
           popd
 
-      - name: Azure Login
-        run: az login
-        env:
-          AZURE_SERVICE_PRINCIPAL_CLIENT_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          AZURE_SERVICE_PRINCIPAL_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-
       - name: Upload JAR to Azure Storage
         run: |
           az storage blob upload \
@@ -73,6 +66,13 @@ jobs:
             echo "JAR file not found!"
             exit 1
           fi
+
+      - name: Azure Login
+        run: az login
+        env:
+          AZURE_SERVICE_PRINCIPAL_CLIENT_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          AZURE_SERVICE_PRINCIPAL_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: Run Azure Functions Action
         uses: Azure/functions-action@v1
