@@ -11,7 +11,8 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: demofunlinapp # set this to your function app name on Azure
-  JAVA_VERSION: '17' # set this to the java version to use
+  POM_XML_DIRECTORY: '.'                # set this to the directory which contains pom.xml file
+  JAVA_VERSION: '17'                    # set this to the java version to use
 
 jobs:
   build:
@@ -23,7 +24,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Java version
         uses: actions/setup-java@v1
         with:
@@ -41,68 +41,38 @@ jobs:
       - name: Rename JAR file
         run: mv target/*.jar target/my-app.jar
 
-      - name: Install Azure CLI
-        run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
-      - name: Upload JAR to Azure Storage
-        run: |
-          az storage blob upload \
-            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
-            --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
-            --container-name ${{ secrets.AZURE_STORAGE_CONTAINER }} \
-            --name my-app.jar \
-            --file target/my-app.jar
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/target/my-app.jar'    
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
-
+      
     steps:
-      - name: Install Azure CLI
-        run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/target/my-app.jar'
 
-      - name: Download JAR from Azure Storage
-        run: |
-          az storage blob download \
-            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
-            --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
-            --container-name ${{ secrets.AZURE_STORAGE_CONTAINER }} \
-            --name my-app.jar \
-            --file my-app.jar
+      # - name: Azure Login
+      #   run: az login
+      #   env:
+      #       AZURE_SERVICE_PRINCIPAL_CLIENT_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      #       AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      #       AZURE_SERVICE_PRINCIPAL_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
-      - name: List downloaded files
-        run: ls -al
-
-      - name: Verify JAR file
-        run: |
-          if [ ! -f "my-app.jar" ]; then
-            echo "JAR file not found!"
-            exit 1
-          fi
-
-      - name: Zip the JAR file
-        run: |
-          zip -r my-app.zip my-app.jar
-
-      - name: Verify ZIP file
-        run: |
-          if [ ! -f "my-app.zip" ]; then
-            echo "ZIP file not found!"
-            exit 1
-          fi
-
-      - name: List ZIP file contents
-        run: unzip -l my-app.zip
-
+      
       - name: Run Azure Functions Action
         id: deploy-to-functionapp
         uses: Azure/functions-action@v1
         with:
           app-name: 'demofunlinapp'
-          package: 'my-app.zip'
+          package: '${{ env.POM_XML_DIRECTORY }}'
           respect-pom-xml: true
           publish-profile: ${{ secrets.PUBLISHPROFILE }}
