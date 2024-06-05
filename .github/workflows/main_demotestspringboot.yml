@@ -72,11 +72,11 @@ jobs:
     #       --name my-app-folder/my-app.jar \
     #       --file target/my-app.jar
 
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v3
-      with:
-       name: java-app
-       path: '${{ github.workspace }}/target/my-app.jar'
+    # - name: Download artifact from build job
+    #   uses: actions/download-artifact@v3
+    #   with:
+    #    name: java-app
+    #    path: '${{ github.workspace }}/target/my-app.jar'
 
     - name: Run Azure Functions Action
       uses: Azure/functions-action@v1
