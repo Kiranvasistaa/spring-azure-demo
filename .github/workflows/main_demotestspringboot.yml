@@ -95,7 +95,7 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: 'https://${{ secrets.AZURE_STORAGE_ACCOUNT }}.blob.core.windows.net/${{ secrets.AZURE_STORAGE_CONTAINER }}/my-app.zip' # Update to the URL of the uploaded zip file
+        package: 'https://demostocon.blob.core.windows.net/demowebapp/my-app.zip' #'https://${{ secrets.AZURE_STORAGE_ACCOUNT }}.blob.core.windows.net/${{ secrets.AZURE_STORAGE_CONTAINER }}/my-app.zip' # Update to the URL of the uploaded zip file
         publish-profile: ${{ secrets.PUBLISH_PROFILE }}
         respect-pom-xml: true
 
