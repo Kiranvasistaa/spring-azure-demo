@@ -41,31 +41,31 @@ jobs:
 
       - name: Upload JAR to Azure Storage
         run: |
-          az storage blob upload \
-            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
-            --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
-            --container-name ${{ secrets.AZURE_STORAGE_CONTAINER }} \
-            --name my-app-folder/my-app.jar \
+          az storage blob upload `
+            --account-name $env:AZURE_STORAGE_ACCOUNT `
+            --account-key $env:AZURE_STORAGE_KEY `
+            --container-name $env:AZURE_STORAGE_CONTAINER `
+            --name my-app-folder/my-app.jar `
             --file target/my-app.jar
 
       - name: Download JAR from Azure Storage
         run: |
-          az storage blob download \
-            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
-            --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
-            --container-name ${{ secrets.AZURE_STORAGE_CONTAINER }} \
-            --name my-app-folder/my-app.jar \
+          az storage blob download `
+            --account-name $env:AZURE_STORAGE_ACCOUNT `
+            --account-key $env:AZURE_STORAGE_KEY `
+            --container-name $env:AZURE_STORAGE_CONTAINER `
+            --name my-app-folder/my-app.jar `
             --file my-app/my-app.jar
 
       - name: List downloaded files
-        run: ls -al my-app
+        run: dir my-app
 
       - name: Verify JAR file
         run: |
-          if [ ! -f "my-app/my-app.jar" ]; then
-            echo "JAR file not found!"
+          if (!(Test-Path -Path "my-app/my-app.jar")) {
+            Write-Error "JAR file not found!"
             exit 1
-          fi
+          }
 
       - name: Azure Login
         run: az login
@@ -82,6 +82,7 @@ jobs:
           package: 'my-app' # Specify the folder containing the downloaded JAR file
           publish-profile: ${{ secrets.PUBLISH_PROFILE }}
           respect-pom-xml: true
+
 
 
         
