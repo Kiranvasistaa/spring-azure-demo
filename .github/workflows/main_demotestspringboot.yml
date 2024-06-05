@@ -70,7 +70,7 @@ jobs:
           --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
           --container-name ${{ secrets.AZURE_STORAGE_CONTAINER }} \
           --name my-app-folder/my-app.jar \
-          --file my-app/my-app.jar
+          --file target/my-app.jar
 
     - name: List downloaded files
       run: ls -al my-app
