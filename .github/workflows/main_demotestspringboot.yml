@@ -75,11 +75,11 @@ jobs:
     #       --name my-app-folder/my-app.jar \
     #       --file target/my-app.jar
 
-    # - name: Download artifact from build job
-    #   uses: actions/download-artifact@v3
-    #   with:
-    #    name: java-app
-    #    path: '${{ github.workspace }}/target/my-app.jar'
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+       name: java-app
+       path: my-app.zip
 
     - name: Upload zip file to Azure Storage
       run: |
@@ -95,7 +95,7 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: 'https://${{ secrets.AZURE_STORAGE_ACCOUNT }}.blob.core.windows.net/${{ secrets.AZURE_STORAGE_CONTAINER }}/my-app.zip' # Update to the URL of the uploaded zip file
+        package: 'my-app.zip' #'https://${{ secrets.AZURE_STORAGE_ACCOUNT }}.blob.core.windows.net/${{ secrets.AZURE_STORAGE_CONTAINER }}/my-app.zip' # Update to the URL of the uploaded zip file
         publish-profile: ${{ secrets.PUBLISH_PROFILE }}
         respect-pom-xml: true
 
